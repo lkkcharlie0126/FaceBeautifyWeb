@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+  remote_controller:
+    build:
+      dockerfile: ./dockerfile
+      context: ./remote_controller
+    restart: unless-stopped
+    ports:
+      - 3001:3001
+    volumes:
+      - ./remote_controller:/app
+    env_file:
+      - .env
+
+
